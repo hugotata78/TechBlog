@@ -13,3 +13,14 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Comment(models.Model):
+    comment = models.TextField()
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+    owner = models.ForeignKey(get_user_model(),related_name='comments', on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['-comment']
+    
+    def __str__(self):
+        return self.comment

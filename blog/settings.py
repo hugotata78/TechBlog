@@ -152,3 +152,11 @@ REST_FRAMEWORK = {
     ],
 }
 
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'BLOG API',
+    'DESCRIPTION': 'Documentación para pruebas BLOG API',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
+}
+

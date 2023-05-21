@@ -1,6 +1,6 @@
 from rest_framework import viewsets, authentication, permissions
-from .models import Post, Comment
-from .serializers import PostSerializer,CommentSerializer
+from .models import Post, Comment, Category
+from .serializers import PostSerializer,CommentSerializer, CategorySerializer
 from .permisions import IsOwnerOrReadOnly
 
 # Create your views here.
@@ -37,6 +37,21 @@ class CommentView(viewsets.ModelViewSet):
             self.permission_classes = [permissions.IsAuthenticated,IsOwnerOrReadOnly]
 
         return super(CommentView,self).get_permissions()
+    
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+class CategoryView(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    authentication_classes = [authentication.TokenAuthentication]
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            self.permission_classes = [permissions.AllowAny]
+        else:
+            self.permission_classes = [permissions.IsAdminUser]
+        return super(CategoryView,self).get_permissions()
     
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)

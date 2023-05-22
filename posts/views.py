@@ -14,10 +14,8 @@ class PostView(viewsets.ModelViewSet):
 
         if self.request.method == 'GET':
             self.permission_classes = [permissions.AllowAny]
-        elif self.request.method == 'POST':
-            self.permission_classes = [permissions.IsAuthenticated]
         else:
-            self.permission_classes = [permissions.IsAuthenticated,IsOwnerOrReadOnly]
+            self.permission_classes = [permissions.IsAdminUser]
     
         return super(PostView,self).get_permissions()
     
@@ -33,10 +31,8 @@ class CommentView(viewsets.ModelViewSet):
 
         if self.request.method == 'GET':
             self.permission_classes = [permissions.AllowAny]
-        elif self.request.method == 'POST':
-            self.permission_classes = [permissions.IsAuthenticated]
         else:
-            self.permission_classes = [permissions.IsAuthenticated,IsOwnerOrReadOnly]
+            self.permission_classes = [permissions.IsAdminUser]
 
         return super(CommentView,self).get_permissions()
     

@@ -31,8 +31,10 @@ class CommentView(viewsets.ModelViewSet):
 
         if self.request.method == 'GET':
             self.permission_classes = [permissions.AllowAny]
+        elif self.request.method == 'POST':
+            self.permission_classes = [permissions.IsAuthenticated]
         else:
-            self.permission_classes = [permissions.IsAdminUser]
+            self.permission_classes = [permissions.IsAuthenticated,IsOwnerOrReadOnly]
 
         return super(CommentView,self).get_permissions()
     
@@ -47,10 +49,8 @@ class CategoryView(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.request.method == 'GET':
             self.permission_classes = [permissions.AllowAny]
-        elif self.request.method == 'POST':
-            self.permission_classes = [permissions.IsAuthenticated]
         else:
-            self.permission_classes = [permissions.IsAuthenticated,IsOwnerOrReadOnly]
+            self.permission_classes = [permissions.IsAdminUser]
         return super(CategoryView,self).get_permissions()
     
     def perform_create(self, serializer):

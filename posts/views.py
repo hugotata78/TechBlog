@@ -1,4 +1,5 @@
-from rest_framework import viewsets, authentication, permissions
+from rest_framework import viewsets, authentication, permissions, generics, decorators
+from rest_framework.response import Response
 from .models import Post, Comment, Category
 from .serializers import PostSerializer,CommentSerializer, CategorySerializer
 from .permisions import IsOwnerOrReadOnly
@@ -18,11 +19,20 @@ class PostView(viewsets.ModelViewSet):
             self.permission_classes = [permissions.IsAdminUser]
     
         return super(PostView,self).get_permissions()
-    
+
     def perform_create(self, serializer):
         serializer.save(owner= self.request.user)
 
-class CommentView(viewsets.ModelViewSet):
+class CreateCommentView(generics.CreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user, post_id=self.kwargs['pk'])
+
+class RetrieveUpdateDestroyCommentView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     authentication_classes = [authentication.TokenAuthentication]
@@ -31,15 +41,11 @@ class CommentView(viewsets.ModelViewSet):
 
         if self.request.method == 'GET':
             self.permission_classes = [permissions.AllowAny]
-        elif self.request.method == 'POST':
-            self.permission_classes = [permissions.IsAuthenticated]
         else:
             self.permission_classes = [permissions.IsAuthenticated,IsOwnerOrReadOnly]
 
-        return super(CommentView,self).get_permissions()
+        return super(RetrieveUpdateDestroyCommentView,self).get_permissions()
     
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
 
 class CategoryView(viewsets.ModelViewSet):
     queryset = Category.objects.all()

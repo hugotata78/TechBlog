@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
+from posts.serializers import PostSerializer,CategorySerializer
 
 class UserSerializer(serializers.ModelSerializer):
-    posts = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    categories = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    posts = PostSerializer(many=True, read_only=True)
+    categories = CategorySerializer(many=True, read_only=True)
 
     class Meta:
         model = get_user_model()

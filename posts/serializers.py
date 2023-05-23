@@ -5,20 +5,20 @@ from .models import Post, Comment, Category
 
 class CommentSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
-    #post = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    post = serializers.ReadOnlyField(source='post.title')
 
 
     class Meta:
         model = Comment
-        fields = ['id','comment', 'owner']
+        fields = ['id','comment', 'owner','post']
 
 class PostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
-    comments = CommentSerializer(many=True, read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)    
 
     class Meta:
         model = Post
-        fields = ['id','title', 'body', 'owner', 'comments', 'category_post']
+        fields = ['id','title', 'body', 'owner', 'comments', 'categories']
 
 
 class CategorySerializer(serializers.ModelSerializer):

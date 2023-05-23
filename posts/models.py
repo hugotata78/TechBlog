@@ -29,7 +29,7 @@ class Category(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True, null=True)
     owner = models.ForeignKey(get_user_model(), related_name='categories',on_delete=models.CASCADE)
-    posts = models.ManyToManyField(Post,related_name='category_post', blank=True)
+    posts = models.ManyToManyField(Post,related_name='categories', blank=True)
 
     class Meta:
         ordering = ['name']

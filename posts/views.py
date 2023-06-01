@@ -1,4 +1,5 @@
 from rest_framework import viewsets, authentication, permissions, generics, decorators
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.response import Response
 from .models import Post, Comment, Category
 from .serializers import PostSerializer,CommentSerializer, CategorySerializer
@@ -9,7 +10,7 @@ from .permisions import IsOwnerOrReadOnly
 class PostView(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    authentication_classes = [authentication.TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
 
     def get_permissions(self):
         if self.request.method == 'GET':
@@ -24,7 +25,7 @@ class PostView(viewsets.ModelViewSet):
 class CreateCommentView(generics.CreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    authentication_classes = [authentication.TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
@@ -33,7 +34,7 @@ class CreateCommentView(generics.CreateAPIView):
 class RetrieveUpdateDestroyCommentView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    authentication_classes = [authentication.TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
 
     def get_permissions(self):
 
@@ -48,7 +49,7 @@ class RetrieveUpdateDestroyCommentView(generics.RetrieveUpdateDestroyAPIView):
 class CategoryView(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    authentication_classes = [authentication.TokenAuthentication]
+    authentication_classes = [JWTAuthentication]
 
     def get_permissions(self):
         if self.request.method == 'GET':

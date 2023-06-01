@@ -148,7 +148,7 @@ CORS_ALLOWED_ORIGINS = [
 
 AUTH_USER_MODEL = 'users.User'
 
-LOGOUT_REDIRECT_URL = os.environ.get('FRONT_SITE_URL', default='http://127.0.0.1:5173')
+LOGOUT_REDIRECT_URL = '/' #os.environ.get('FRONT_SITE_URL', default='http://127.0.0.1:5173')
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',

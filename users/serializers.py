@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
 from posts.serializers import PostSerializer,CategorySerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     posts = PostSerializer(many=True, read_only=True)
@@ -45,3 +46,13 @@ class AuthTokenSerializer(serializers.Serializer):
             raise serializers.ValidationError('Error de autenticación!', code='authorization')
         data['user'] = user
         return data
+    
+class MyTokenObteinPairSerializer(TokenObtainPairSerializer):
+
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        token['username'] = user.username
+        token['is_superuser'] = user.is_superuser
+        token['is_staff'] = user.is_staff
+        return token

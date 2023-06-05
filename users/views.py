@@ -2,8 +2,9 @@ from rest_framework import viewsets, permissions, authentication
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import get_user_model
-from .serializers import AuthTokenSerializer, UserSerializer
+from .serializers import AuthTokenSerializer, UserSerializer, MyTokenObteinPairSerializer
 from .permissions import IsOwnerOrReadOnly
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 # Create your views here.
 
@@ -34,3 +35,6 @@ deberá ingresar su nombre de usuario y contraseña para autenticarse
 """
 class CreateTokenView(ObtainAuthToken):
     serializer_class = AuthTokenSerializer
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObteinPairSerializer

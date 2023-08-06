@@ -41,7 +41,7 @@ class RetrieveUpdateDestroyCommentView(generics.RetrieveUpdateDestroyAPIView):
         if self.request.method == 'GET':
             self.permission_classes = [permissions.AllowAny]
         else:
-            self.permission_classes = [permissions.IsAuthenticated,IsOwnerOrReadOnly]
+            self.permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
 
         return super(RetrieveUpdateDestroyCommentView,self).get_permissions()
     

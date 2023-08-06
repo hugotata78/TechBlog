@@ -22,10 +22,11 @@ class PostSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     comments = CommentSerializer(many=True, read_only=True) 
     categories = CategoryPostSerializser(many=True, read_only=True)   
+    categoryId = serializers.PrimaryKeyRelatedField(many=True, write_only=True,queryset=Category.objects.all(), source='categories')
 
     class Meta:
         model = Post
-        fields = ['id','title', 'body', 'owner', 'comments', 'categories']
+        fields = ['id','title', 'body', 'owner', 'comments', 'categories','categoryId']
 
 
 class CategorySerializer(serializers.ModelSerializer):

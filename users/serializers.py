@@ -9,7 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ['username', 'email', 'password','first_name','last_name', 'posts', 'categories']
+        fields = ['id','username', 'email', 'password','first_name','last_name', 'posts', 'categories']
         extra_kwargs = {
             'username':{'write_only':True},
             'email':{'write_only':True},
@@ -28,6 +28,11 @@ class UserSerializer(serializers.ModelSerializer):
             user.save()
         
         return user
+class UserAuthenticateSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = get_user_model()
+        fields = ['id','first_name','last_name']
 
 class AuthTokenSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -49,10 +54,4 @@ class AuthTokenSerializer(serializers.Serializer):
     
 class MyTokenObteinPairSerializer(TokenObtainPairSerializer):
 
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-        token['username'] = user.username
-        token['is_superuser'] = user.is_superuser
-        token['is_staff'] = user.is_staff
-        return token
+    pass

@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 class Category(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True, null=True)
-    owner = models.ForeignKey(get_user_model(), related_name='categories',on_delete=models.CASCADE)
+    owner = models.ForeignKey(get_user_model(), related_name='categories',on_delete=models.PROTECT)
     
 
     class Meta:
@@ -19,7 +19,7 @@ class Post(models.Model):
     title = models.CharField(max_length=50)
     body = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
-    owner = models.ForeignKey(get_user_model(), related_name='posts', on_delete=models.CASCADE)
+    owner = models.ForeignKey(get_user_model(), related_name='posts', on_delete=models.PROTECT)
     categories = models.ManyToManyField(Category,related_name='posts', blank=True)
 
     class Meta:
@@ -31,7 +31,7 @@ class Post(models.Model):
 class Comment(models.Model):
     comment = models.TextField()
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
-    owner = models.ForeignKey(get_user_model(),related_name='comments', on_delete=models.CASCADE)
+    owner = models.ForeignKey(get_user_model(),related_name='comments', on_delete=models.CASCADE, db_constraint=False)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:

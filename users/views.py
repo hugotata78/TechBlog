@@ -1,9 +1,9 @@
-from rest_framework import viewsets, permissions, authentication, status
+from rest_framework import viewsets, permissions, status
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import get_user_model, authenticate
-from .serializers import AuthTokenSerializer, UserSerializer, MyTokenObteinPairSerializer, UserAuthenticateSerializer
+from .serializers import UserSerializer, MyTokenObteinPairSerializer, UserAuthenticateSerializer
 from .permissions import IsOwnerOrReadOnly
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -34,8 +34,6 @@ Vista de Login de usuario el cual genera un token de autenticación
 el usuario primero deberá registrarse y luego para loguearse
 deberá ingresar su nombre de usuario y contraseña para autenticarse
 """
-class CreateTokenView(ObtainAuthToken):
-    serializer_class = AuthTokenSerializer
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObteinPairSerializer

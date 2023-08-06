@@ -1,6 +1,5 @@
-from rest_framework import viewsets, authentication, permissions, generics, decorators
+from rest_framework import viewsets, permissions, generics
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.response import Response
 from .models import Post, Comment, Category
 from .serializers import PostSerializer,CommentSerializer, CategorySerializer
 from .permisions import IsOwnerOrReadOnly
